@@ -6,7 +6,7 @@ namespace LeetCodeRunner
     {
         public static void Main(string[] args)
         {
-            HubManager hubManager = new HubManager();
+            IHubManager hubManager = new HubManager();
             hubManager.ExecuteHub();
         }
         
