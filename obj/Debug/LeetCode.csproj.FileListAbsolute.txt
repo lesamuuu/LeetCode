@@ -1,0 +1,6 @@
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\bin\Debug\LeetCode.exe
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\bin\Debug\LeetCode.pdb
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\obj\Debug\LeetCode.csproj.AssemblyReference.cache
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\obj\Debug\LeetCode.csproj.CoreCompileInputs.cache
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\obj\Debug\LeetCode.exe
+A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\obj\Debug\LeetCode.pdb
