@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_67_AddBinary
     {

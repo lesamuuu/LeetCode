@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_35_SearchInsertPosition
     {

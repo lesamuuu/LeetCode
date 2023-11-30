@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_26_RemoveDuplicatesFromSortedArray
     {

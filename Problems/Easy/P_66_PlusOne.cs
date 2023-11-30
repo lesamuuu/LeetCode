@@ -1,6 +1,6 @@
 using System;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_66_PlusOne
     {

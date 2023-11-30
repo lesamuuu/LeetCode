@@ -1,4 +1,4 @@
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_9_PalindromeNumber
     {

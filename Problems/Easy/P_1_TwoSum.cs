@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_1_TwoSum
     {

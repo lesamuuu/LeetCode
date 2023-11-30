@@ -1,6 +1,6 @@
 using LeetCodeRunner.ExternalClasses;
 
-namespace LeetCodeRunner.Problems
+namespace LeetCodeRunner.Problems.Easy
 {
     public class P_83_RemoveDuplicatesFromSortedList
     {
