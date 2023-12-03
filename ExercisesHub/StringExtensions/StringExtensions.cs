@@ -1,17 +1,16 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
 namespace LeetCodeRunner.ExercisesHub.StringExtensions
 {
     public static class StringExtensions
     {
-        public static Hashtable GetHashedExercisesList(this string rootFolder)
+        public static Dictionary<int,string> GetHashedExercisesList(this string rootFolder)
         {   
-            /* HashTable used to relate exercises numbers to the corresponding files
+            /* Dictionary used to relate exercises numbers to the corresponding files
             Example: For the file P_1_TwoSum, the tuple will be >> 1 - P_1_TwoSum */
-            Hashtable exercisesNumAndFile = new Hashtable();
+            Dictionary<int, string> exercisesNumAndFile = new Dictionary<int, string>();
             
             string[] fileNames = Directory.GetFiles(rootFolder);
             
