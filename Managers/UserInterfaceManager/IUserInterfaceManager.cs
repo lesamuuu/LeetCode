@@ -1,13 +1,15 @@
-using System.Collections;
+using System;
+using System.Collections.Generic;
 
-namespace LeetCodeRunner.ExercisesHub.UserInterfaceManager
+namespace LeetCodeRunner.Managers.UserInterfaceManager
 {
     public interface IUserInterfaceManager
     {
         void ShowDialog(string dialog);
         int RequestForInt(string dialog);
-        int RequestForIntKeyMatcher(string dialog, Hashtable hashtable);
-        
-        
+        bool RequestForBool(string dialog);
+        int RequestForIntKeyMatcher(string dialog, Dictionary<int, string> hashtable);
+        IEnumerable<object> RequestParameters(IEnumerable<KeyValuePair<string, Type>> parametersRequested);
+
     }
 }
