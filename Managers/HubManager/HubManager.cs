@@ -1,24 +1,30 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using LeetCodeRunner.ExercisesHub;
 using LeetCodeRunner.ExercisesHub.StringExtensions;
-using LeetCodeRunner.ExercisesHub.UserInterfaceManager;
+using LeetCodeRunner.Managers.UserInterfaceManager;
 
 namespace LeetCodeRunner.Managers.HubManager
 {
     public class HubManager : IHubManager
     {
-        private IUserInterfaceManager _IUserInterfaceManager = new UserInterfaceManager();
+        private IUserInterfaceManager _IUserInterfaceManager = new UserInterfaceManager.UserInterfaceManager();
 
-        /* HashTable used to relate exercises numbers to the corresponding files
+        /* Dictionary used to relate exercises numbers to the corresponding files
         Example: For the file P_1_TwoSum, the tuple will be >> 1 - P_1_TwoSum */
-        private Hashtable _exercisesNumAndFile = new Hashtable();
+        private Dictionary<int, string> _exercisesNumAndFile = new Dictionary<int, string>();
         
-        /* HashTable used to get the parameters of a method
+        /* Dictionary used to get the parameters of a method
         Parameter Name - Parameter Type */
-        private Hashtable _parametersRequested = new Hashtable();
+        private List<KeyValuePair<string, Type>> _parametersRequested = new List<KeyValuePair<string, Type>>();
+
+        /* List of introduced parameters */
+        private IEnumerable<object> _parametersIntroduced = new List<object>();
+
+        /* Result of the invoked method */
+        private object _invokedResult;
         
         public void ExecuteHub()
         {
@@ -36,6 +42,21 @@ namespace LeetCodeRunner.Managers.HubManager
             
             // Get parameters HashTable
             _parametersRequested = GetParameters(classMethodsInfo[0]);
+            
+            // Request parameters
+            _parametersIntroduced = _IUserInterfaceManager.RequestParameters(_parametersRequested);
+
+            // Result of the execution 
+            _invokedResult = InvokeMethod(classMethodsInfo[0], _parametersIntroduced);
+
+            // Show result to the user
+            _IUserInterfaceManager.ShowDialog($"{HubKeys.Dialogs.ResultIs}{_invokedResult}");
+            
+            // Execute again if needed
+            if (_IUserInterfaceManager.RequestForBool($"{HubKeys.Dialogs.AskIfExecuteAgain} {HubKeys.Dialogs.YesOrNo}"))
+            {
+                ExecuteHub();
+            };
         }
         
         private MethodInfo[] GetMethodsInfo(string className)
@@ -49,25 +70,26 @@ namespace LeetCodeRunner.Managers.HubManager
             return methodsInfo;
         }
         
-        public Hashtable GetParameters(MethodInfo methodInfo)
+        private List<KeyValuePair<string, Type>> GetParameters(MethodInfo methodInfo)
         {
-            Hashtable parametersNameAndType = new Hashtable();
+            List<KeyValuePair<string, Type>> parametersNameAndTypeList = new List<KeyValuePair<string, Type>>();
             
             ParameterInfo[] parametersInfo = methodInfo.GetParameters();
 
             foreach (ParameterInfo parameterInfo in parametersInfo)
             {
-                parametersNameAndType.Add(parameterInfo.Name, parameterInfo.ParameterType);
+                parametersNameAndTypeList.Add(new KeyValuePair<string, Type>(parameterInfo.Name, parameterInfo.ParameterType));
             }
 
-            return parametersNameAndType;
+            return parametersNameAndTypeList;
         }
         
-        public string GetSortedExercisesList(Hashtable exercisesNumAndFile)
+        private string GetSortedExercisesList(Dictionary<int, string> exercisesNumAndFile)
         {
             string sortedExercisesList ="";
-            var sortedEntries = exercisesNumAndFile.Cast<DictionaryEntry>().OrderBy(entry => entry.Key);
-            foreach (DictionaryEntry sortedKey in sortedEntries)
+            var sortedEntries = exercisesNumAndFile.OrderBy(entry => entry.Key);
+            
+            foreach (KeyValuePair<int, string> sortedKey in sortedEntries)
             {
                 sortedExercisesList += $"{FormatExerciseStringListed(sortedKey)}\n";
             }
@@ -75,7 +97,7 @@ namespace LeetCodeRunner.Managers.HubManager
             return sortedExercisesList;
         }
 
-        public string FormatExerciseStringListed(DictionaryEntry exerciseNumAndFile)
+        private string FormatExerciseStringListed(KeyValuePair<int, string> exerciseNumAndFile)
         {
             string spaceAfterNumber = "";
             
@@ -93,6 +115,23 @@ namespace LeetCodeRunner.Managers.HubManager
             }
 
             return $"[{exerciseNumAndFile.Key}{spaceAfterNumber}] --> {exerciseNumAndFile.Value}";
+        }
+
+        private object InvokeMethod(MethodInfo method, IEnumerable<object> parameters)
+        {
+            object[] parametersArray = parameters.ToArray();
+            object invokedResult = null;
+
+            try
+            {
+                invokedResult = method.Invoke(null, parametersArray);
+            }
+            catch (TargetInvocationException e)
+            {
+                _IUserInterfaceManager.ShowDialog($"Exception during method invocation: {e.InnerException.Message}");
+            }
+
+            return invokedResult;
         }
     }
 }
