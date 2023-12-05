@@ -28,7 +28,7 @@ namespace LeetCodeRunner.Managers.HubManager
         
         public void ExecuteHub()
         {
-            // TODO: Change default EasyFolder (absolute to relative path) depending on the user choice
+            //TODO: Change default EasyFolder (absolute to relative path) depending on the user choice
             _exercisesNumAndFile = HubKeys.Paths.EasyFolder.GetHashedExercisesList();
             
             string askForExerciseNumberComplete = $"{GetSortedExercisesList(_exercisesNumAndFile)}\n{HubKeys.Dialogs.AskForExerciseNumber}";

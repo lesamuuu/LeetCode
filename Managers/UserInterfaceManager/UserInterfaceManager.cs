@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LeetCodeRunner.ExercisesHub;
+using LeetCodeRunner.ExternalClasses;
 
 namespace LeetCodeRunner.Managers.UserInterfaceManager
 {
@@ -102,11 +103,68 @@ namespace LeetCodeRunner.Managers.UserInterfaceManager
             var introducedParameters = new List<object>();
             foreach (var parameter in requestedParameters)
             {
-                var introducedParameter = RequestObject($"Insert value for {parameter.Key}, (Type: {parameter.Value})", parameter.Value); 
-                introducedParameters.Add(introducedParameter);
+                if (parameter.Value.IsArray)
+                {
+                    Type elementType = parameter.Value.GetElementType();
+                    if (elementType == typeof(int))
+                    {
+                        var introducedIntArray = RequestForIntArray($"{HubKeys.Dialogs.InsertValueFor} {parameter.Key}, ({HubKeys.Generic.Type}: {parameter.Value})");
+                        introducedParameters.Add(introducedIntArray);
+                    }
+                    else if (elementType == typeof(string))
+                    {
+                        // string array
+                    }
+                }
+                else if (parameter.Value == typeof(ListNode))
+                {
+                    // ListNode
+                }
+                else
+                {
+                    var introducedParameter = RequestObject($"{HubKeys.Dialogs.InsertValueFor} {parameter.Key}, ({HubKeys.Generic.Type}: {parameter.Value})", parameter.Value); 
+                    introducedParameters.Add(introducedParameter);
+                }    
             }
 
             return introducedParameters;
+        }
+
+        public int[] RequestForIntArray(string dialog)
+        {
+            ShowDialog(dialog);
+
+            List<int> insertedInt = new List<int>();
+            
+            while (true)
+            {
+                string givenValue = Console.ReadLine();
+       
+                if (int.TryParse(givenValue, out int validNumber))
+                {
+                    insertedInt.Add(validNumber);
+                }
+                else if (givenValue.ToUpper() == "D")
+                {
+                    if (insertedInt.Count > 0) insertedInt.RemoveAt(insertedInt.Count - 1);
+                    else ShowDialog(HubKeys.Errors.CantDeleteEmptyArray);
+                }
+                else if (givenValue.ToUpper() == "C")
+                {
+                    return insertedInt.ToArray();
+                }
+                else
+                { 
+                    ShowDialog(HubKeys.Errors.InvalidInputIntegerRequested);
+                }
+                
+                ShowDialog($"{HubKeys.Dialogs.CurrentValueIs}[{string.Join(",", insertedInt)}] {HubKeys.Dialogs.RequestIntArrayInstructions}");
+            }
+        }
+
+        public string[] RequestForStringArray(string dialog)
+        {
+            throw new NotImplementedException();
         }
     }
 }

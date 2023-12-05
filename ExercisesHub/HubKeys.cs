@@ -2,6 +2,10 @@ namespace LeetCodeRunner.ExercisesHub
 {
     public static class HubKeys
     {
+        public static class Generic
+        {
+            public const string Type = "Type";
+        }
         public static class Paths
         {
             public const string ProblemsFolder = @"A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\Problems";
@@ -27,6 +31,9 @@ namespace LeetCodeRunner.ExercisesHub
             public const string AskIfExecuteAgain = "Do you want to execute another exercice?";
             public const string YesOrNo = "(Y/N)";
             public const string ResultIs = "The result is: ";
+            public const string RequestIntArrayInstructions = "Type your next number or: [C] to complete the array / [D] to delete last index.";
+            public const string CurrentValueIs = "Current value is: ";
+            public const string InsertValueFor = "Insert value for";
         }
 
         public static class Errors
@@ -36,6 +43,7 @@ namespace LeetCodeRunner.ExercisesHub
             public const string InvalidInput = "Invalid input. Please enter a value of type: ";
             public const string ConversionNotSupported = "Conversion is not supported for type: ";
             public const string InvalidInputBoolRequested = "Invalid input, please enter 'Y' of 'YES' or 'N' for 'NO'";
+            public const string CantDeleteEmptyArray = "You can't delete the last index since the array is empty";
         }
     }
 }
