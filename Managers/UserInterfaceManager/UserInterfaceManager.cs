@@ -108,12 +108,13 @@ namespace LeetCodeRunner.Managers.UserInterfaceManager
                     Type elementType = parameter.Value.GetElementType();
                     if (elementType == typeof(int))
                     {
-                        var introducedIntArray = RequestForIntArray($"{HubKeys.Dialogs.InsertValueFor} {parameter.Key}, ({HubKeys.Generic.Type}: {parameter.Value})");
+                        var introducedIntArray = RequestForIntArray(string.Format(HubKeys.Dialogs.InsertValueForParameter, parameter.Key, parameter.Value));
                         introducedParameters.Add(introducedIntArray);
                     }
                     else if (elementType == typeof(string))
                     {
-                        // string array
+                        var introducedStringArray = RequestForStringArray(string.Format(HubKeys.Dialogs.InsertValueForParameter, parameter.Key, parameter.Value));
+                        introducedParameters.Add(introducedStringArray);
                     }
                 }
                 else if (parameter.Value == typeof(ListNode))
@@ -122,7 +123,7 @@ namespace LeetCodeRunner.Managers.UserInterfaceManager
                 }
                 else
                 {
-                    var introducedParameter = RequestObject($"{HubKeys.Dialogs.InsertValueFor} {parameter.Key}, ({HubKeys.Generic.Type}: {parameter.Value})", parameter.Value); 
+                    var introducedParameter = RequestObject(string.Format(HubKeys.Dialogs.InsertValueForParameter, parameter.Key, parameter.Value), parameter.Value); 
                     introducedParameters.Add(introducedParameter);
                 }    
             }
@@ -158,13 +159,36 @@ namespace LeetCodeRunner.Managers.UserInterfaceManager
                     ShowDialog(HubKeys.Errors.InvalidInputIntegerRequested);
                 }
                 
-                ShowDialog($"{HubKeys.Dialogs.CurrentValueIs}[{string.Join(",", insertedInt)}] {HubKeys.Dialogs.RequestIntArrayInstructions}");
+                ShowDialog(string.Format(HubKeys.Dialogs.RequestIntArrayInstructions, string.Join(",", insertedInt)));
             }
         }
 
         public string[] RequestForStringArray(string dialog)
         {
-            throw new NotImplementedException();
+            ShowDialog(dialog);
+
+            List<string> insertedString = new List<string>();
+            
+            while (true)
+            {
+                string givenValue = Console.ReadLine();
+
+                switch (givenValue.ToUpper())
+                {
+                    case "@D":
+                        if (insertedString.Count > 0) insertedString.RemoveAt(insertedString.Count - 1);
+                        else ShowDialog(HubKeys.Errors.CantDeleteEmptyArray);
+                        break;
+                    case "@C":
+                        return insertedString.ToArray();
+                        break;
+                    default:
+                        insertedString.Add(givenValue);
+                        break;
+                }
+
+                ShowDialog(string.Format(HubKeys.Dialogs.RequestStringArrayInstructions, string.Join(",", insertedString)));
+            }
         }
     }
 }

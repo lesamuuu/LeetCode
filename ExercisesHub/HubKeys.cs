@@ -2,10 +2,6 @@ namespace LeetCodeRunner.ExercisesHub
 {
     public static class HubKeys
     {
-        public static class Generic
-        {
-            public const string Type = "Type";
-        }
         public static class Paths
         {
             public const string ProblemsFolder = @"A:\Programas\JetBrains\RidersProjects\LeetCode\LeetCode\Problems";
@@ -31,9 +27,9 @@ namespace LeetCodeRunner.ExercisesHub
             public const string AskIfExecuteAgain = "Do you want to execute another exercice?";
             public const string YesOrNo = "(Y/N)";
             public const string ResultIs = "The result is: ";
-            public const string RequestIntArrayInstructions = "Type your next number or: [C] to complete the array / [D] to delete last index.";
-            public const string CurrentValueIs = "Current value is: ";
-            public const string InsertValueFor = "Insert value for";
+            public const string RequestIntArrayInstructions = "Current value is: [{0}]. Type your next number or: [C] to complete the array / [D] to delete last index.";
+            public const string RequestStringArrayInstructions = "Current value is: [{0}]. Type your next string or: [@C] to complete the array / [@D] to delete last index.";
+            public const string InsertValueForParameter = "Insert value for parameter [{0}], of Type [{1}]";
         }
 
         public static class Errors
